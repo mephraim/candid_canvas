@@ -162,7 +162,7 @@ var General = {
       anim.loop();
     });
 
-    document.getElementById("stop").addEventListener('click', function() {
+    document.getElementById("reset").addEventListener('click', function() {
       anim.reset();
     });
   },
