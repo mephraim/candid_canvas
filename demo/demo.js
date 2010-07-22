@@ -77,29 +77,63 @@ var Scene1 = {
   getCoordsFromAngle: function (radius, angle) {
     var angleInRads = angle * (Math.PI / 180);
 
-    return { x: radius * Math.cos(angleInRads), 
+    return { x: radius * Math.cos(angleInRads),
              y: radius * Math.sin(angleInRads) };
   }
 };
 
 var Scene2 = {
   get: function() {
-    var scene = CandidCanvas.createScene({duration: 1000});
-    scene.addElements(General.getDrawBackground("#677C67"),
-                      Scene2.drawText);
-  
+    var scene = CandidCanvas.createScene({duration: 2000});
+    scene.addElements(General.getDrawBackground("#95E681"),
+                      Scene2.drawText,
+                      Scene2.drawStatus);
+
     return scene;
   },
 
   // A function to draw some text to the screen
   drawText: function(anim) {
     var ctx = anim.context();
+    ctx.restore();
+    ctx.save();
+
     ctx.fillStyle    = "#FFF";
-    ctx.font         = "50px Helvetica";
+    ctx.font         = "60px Helvetica";
     ctx.textAlign    = "center";
     ctx.textBaseline = "middle";
 
     ctx.fillText("SCENE 2", 200, 200);
+
+    ctx.restore();
+    ctx.save();
+  },
+
+  drawStatus: function(anim) {
+    var startX = 0;
+    var endX = 400;
+    var y = 350;
+
+    var changeX = endX - startX;
+
+    var scene = anim.currentScene();
+
+    var ctx = anim.context();
+    ctx.restore();
+    ctx.save();
+
+    ctx.strokeStyle = "#515F4D";
+    ctx.lineWidth = 5;
+
+    ctx.beginPath();
+    ctx.moveTo(startX, y);
+
+    var xPos = (changeX / scene.duration()) * scene.timeElapsed();
+    ctx.lineTo(xPos, y);
+    ctx.stroke();
+
+    ctx.restore();
+    ctx.save();
   }
 };
 
