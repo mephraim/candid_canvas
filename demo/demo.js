@@ -1,3 +1,7 @@
+/*
+ * This is a rough demo that shows off the basic usage of the Candid Canvas
+ * library. The demo code create a simple 2 scene animation.
+ */
 window.onload = function() {
   // Create a new Animator that is attached to the page's canvas element
   var animator = CandidCanvas.createAnimator(document.getElementById('canvas'));
@@ -6,30 +10,13 @@ window.onload = function() {
                      Scene2.get());
   animator.loop();
 
-  addEventHandlers(animator);
+  General.addEventHandlers(animator);
 };
 
-function addEventHandlers(anim) {
-  document.getElementById("play").addEventListener('click', function() {
-    anim.play();
-  });
-
-  document.getElementById("pause").addEventListener('click', function() {
-    anim.pause();
-  });
-
-  document.getElementById("loop").addEventListener('click', function() {
-    anim.loop();
-  });
-
-  document.getElementById("stop").addEventListener('click', function() {
-    anim.reset();
-  });
-}
-
+// Scene 1 shows displays some rotating circles
 var Scene1 = {
   get: function() {
-    // Create a new scene that will last 10 seconds
+    // Create a new scene that will last 3 seconds
     var scene = CandidCanvas.createScene({ duration: 3000 });
 
     // Add an element that draws the background for each tick
@@ -51,8 +38,8 @@ var Scene1 = {
   },
 
 
-  // This function builds a function that will be used as a scene element
-  // that draws circle. The scene element will behave differently, depending
+  // This function builds another function that will be used as a scene element
+  // that draws a circle. The scene element will behave differently, depending
   // on the params that are passed to function that builds the element.
   //
   // See the usage above for different parameters being passed in to build
@@ -68,7 +55,7 @@ var Scene1 = {
       var rotationAmt = (totalAngleChange / scene.duration()) * scene.timeElapsed();
       var currentAngle = startAngle + rotationAmt;
 
-      var point = Scene1.getCoordsFromAngle(rotationRadius, currentAngle);
+      var point = General.getCoordsFromAngle(rotationRadius, currentAngle);
 
       ctx.fillStyle = color;
       ctx.beginPath();
@@ -77,18 +64,13 @@ var Scene1 = {
     };
   },
 
-  getCoordsFromAngle: function (radius, angle) {
-    var angleInRads = angle * (Math.PI / 180);
-
-    return { x: radius * Math.cos(angleInRads),
-             y: radius * Math.sin(angleInRads) };
-  },
-
+  // This element draws the Scene 1 text
   drawText: function(anim) {
     General.drawText(anim.context(), "Scene 1", 20);
   }
 };
 
+// Scene 2 displays some text and a status bar
 var Scene2 = {
   get: function() {
     var scene = CandidCanvas.createScene({duration: 2000});
@@ -99,6 +81,7 @@ var Scene2 = {
     return scene;
   },
 
+  // This element draws a status bar that shows the current scene progress
   drawStatus: function(anim) {
     var startX = 0;
     var endX = 400;
@@ -126,11 +109,13 @@ var Scene2 = {
     ctx.save();
   },
 
+  // This element displays the scene 2 text
   drawText: function(anim) {
     General.drawText(anim.context(), "SCENE 2", 60);
   }
 };
 
+// Some general functions that come in handy for drawing the overall animation
 var General = {
   // This function builds a function that will be used to draw the background
   // for an animation.
@@ -162,5 +147,30 @@ var General = {
 
     ctx.restore();
     ctx.save();
+  },
+
+  addEventHandlers: function(anim) {
+    document.getElementById("play").addEventListener('click', function() {
+      anim.play();
+    });
+
+    document.getElementById("pause").addEventListener('click', function() {
+      anim.pause();
+    });
+
+    document.getElementById("loop").addEventListener('click', function() {
+      anim.loop();
+    });
+
+    document.getElementById("stop").addEventListener('click', function() {
+      anim.reset();
+    });
+  },
+
+  getCoordsFromAngle: function (radius, angle) {
+    var angleInRads = angle * (Math.PI / 180);
+
+    return { x: radius * Math.cos(angleInRads),
+             y: radius * Math.sin(angleInRads) };
   }
 };
