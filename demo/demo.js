@@ -152,19 +152,19 @@ var General = {
   addEventHandlers: function(anim) {
     document.getElementById("play").addEventListener('click', function() {
       anim.play();
-    });
+    }, false);
 
     document.getElementById("pause").addEventListener('click', function() {
       anim.pause();
-    });
+    }, false);
 
     document.getElementById("loop").addEventListener('click', function() {
       anim.loop();
-    });
+    }, false);
 
     document.getElementById("reset").addEventListener('click', function() {
       anim.reset();
-    });
+    }, false);
   },
 
   getCoordsFromAngle: function (radius, angle) {
