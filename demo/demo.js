@@ -35,6 +35,9 @@ var Scene1 = {
     // Add an element that draws the background for each tick
     scene.addElement(General.getDrawBackground("#080808"));
 
+    // Add an element that draws some text in the middle of the screen
+    scene.addElement(Scene1.drawText);
+
     // Add an element that draws a rotating circle
     scene.addElement(Scene1.getCircleDraw(180, 540, 50, "#D2EC4C"));
 
@@ -79,6 +82,10 @@ var Scene1 = {
 
     return { x: radius * Math.cos(angleInRads),
              y: radius * Math.sin(angleInRads) };
+  },
+
+  drawText: function(anim) {
+    General.drawText(anim.context(), "Scene 1", 20);
   }
 };
 
@@ -90,23 +97,6 @@ var Scene2 = {
                       Scene2.drawStatus);
 
     return scene;
-  },
-
-  // A function to draw some text to the screen
-  drawText: function(anim) {
-    var ctx = anim.context();
-    ctx.restore();
-    ctx.save();
-
-    ctx.fillStyle    = "#FFF";
-    ctx.font         = "60px Helvetica";
-    ctx.textAlign    = "center";
-    ctx.textBaseline = "middle";
-
-    ctx.fillText("SCENE 2", 200, 200);
-
-    ctx.restore();
-    ctx.save();
   },
 
   drawStatus: function(anim) {
@@ -134,6 +124,10 @@ var Scene2 = {
 
     ctx.restore();
     ctx.save();
+  },
+
+  drawText: function(anim) {
+    General.drawText(anim.context(), "SCENE 2", 60);
   }
 };
 
@@ -152,5 +146,21 @@ var General = {
       ctx.restore();
       ctx.save();
     };
+  },
+
+  // draw some text to the screen
+  drawText: function(ctx, text, fontSize) {
+    ctx.restore();
+    ctx.save();
+
+    ctx.fillStyle    = "#FFF";
+    ctx.font         = fontSize + "px Helvetica";
+    ctx.textAlign    = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText(text, 200, 200);
+
+    ctx.restore();
+    ctx.save();
   }
 };
